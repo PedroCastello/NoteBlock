@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: noteblock
+  datasource:
+    url: jdbc:postgresql://localhost:5432/noteblock?currentSchema=public
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: public
+        jdbc:
+          time_zone: UTC
+server:
+  port: 8080
+
+jwt:
+  secret: ${JWT_SECRET:noteblock-local-dev-secret-key-with-32-plus-chars}
+  expiration: ${JWT_EXPIRATION_MS:86400000}
