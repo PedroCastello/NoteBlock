@@ -20,5 +20,5 @@ server:
   port: 8080
 
 jwt:
-  secret: ${JWT_SECRET:noteblock-local-dev-secret-key-with-32-plus-chars}
+  secret: ${JWT_SECRET}
   expiration: ${JWT_EXPIRATION_MS:86400000}
