@@ -2,9 +2,9 @@ spring:
   application:
     name: noteblock
   datasource:
-    url: jdbc:postgresql://localhost:5432/noteblock?currentSchema=public
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:postgres}
+    url: ${DB_URL}/noteblock
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     open-in-view: false

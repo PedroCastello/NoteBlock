@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.noteblock.noteblock.dto.AuthTokenResponseDTO;
 import com.noteblock.noteblock.dto.LoginDTO;
 import com.noteblock.noteblock.dto.RegistroDto;
+import com.noteblock.noteblock.dto.RegistroResponseDTO;
 import com.noteblock.noteblock.service.AuthService;
 
 import jakarta.validation.Valid;
@@ -25,9 +26,9 @@ public class AuthController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity<String> registrar(@Valid @RequestBody RegistroDto registroDto) {
+    public ResponseEntity<RegistroResponseDTO> registrar(@Valid @RequestBody RegistroDto registroDto) {
         authService.registrar(registroDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado com sucesso.");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new RegistroResponseDTO(registroDto.getNome(), registroDto.getEmail()));
     }
 
     @PostMapping("/login")

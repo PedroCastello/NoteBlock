@@ -1,5 +1,7 @@
 package com.noteblock.noteblock.service;
 
+import java.util.Optional;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.noteblock.noteblock.dto.LoginDTO;
 import com.noteblock.noteblock.dto.RegistroDto;
 import com.noteblock.noteblock.entity.Usuario;
+import com.noteblock.noteblock.exception.CredenciaisInvalidasException;
+import com.noteblock.noteblock.exception.EmailJaCadastradoException;
 import com.noteblock.noteblock.repository.UsuarioRepository;
 import com.noteblock.noteblock.security.TokenService;
 
@@ -34,8 +38,13 @@ public class AuthService {
     }
 
     public void registrar(RegistroDto registroDto) {
-        if (usuarioRepository.findByEmail(registroDto.getEmail()).isPresent()) {
-            throw new IllegalStateException("Email ja cadastrado.");
+
+        Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(registroDto.getEmail());
+
+        Boolean emailJaExiste = usuarioExistente.isPresent();
+
+        if (emailJaExiste) {
+            throw new EmailJaCadastradoException("Email: " + registroDto.getEmail() + " já cadastrado.");
         }
 
         Usuario usuario = new Usuario(
@@ -54,7 +63,7 @@ public class AuthService {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             return tokenService.generateToken(userDetails);
         } catch (BadCredentialsException ex) {
-            throw new IllegalArgumentException("Credenciais invalidas.");
+            throw new CredenciaisInvalidasException("Credenciais invalidas.");
         }
     }
 }

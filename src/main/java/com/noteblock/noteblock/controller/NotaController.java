@@ -31,7 +31,7 @@ public class NotaController {
         this.notaService = notaService;
     }
 
-    // POST /notas — cria nota do usuario logado
+    
     @PostMapping
     public ResponseEntity<NotaResponseDTO> criar(@Valid @RequestBody NotaRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(notaService.criar(dto));
