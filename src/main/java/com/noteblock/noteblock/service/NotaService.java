@@ -10,6 +10,7 @@ import com.noteblock.noteblock.dto.NotaRequestDTO;
 import com.noteblock.noteblock.dto.NotaResponseDTO;
 import com.noteblock.noteblock.entity.Nota;
 import com.noteblock.noteblock.entity.Usuario;
+import com.noteblock.noteblock.exception.NotaNaoEncontradaException;
 import com.noteblock.noteblock.repository.NotaRepository;
 import com.noteblock.noteblock.repository.UsuarioRepository;
 
@@ -37,7 +38,7 @@ public class NotaService {
     public NotaResponseDTO buscarPorId(Long id) {
         Usuario usuario = getUsuarioLogado();
         Nota nota = notaRepository.findByIdAndUsuarioId(id, usuario.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Nota nao encontrada."));
+                .orElseThrow(() -> new NotaNaoEncontradaException("Nota nao encontrada."));
         return toDTO(nota);
     }
 
@@ -55,7 +56,7 @@ public class NotaService {
     public NotaResponseDTO atualizar(Long id, NotaRequestDTO dto) {
         Usuario usuario = getUsuarioLogado();
         Nota nota = notaRepository.findByIdAndUsuarioId(id, usuario.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Nota nao encontrada."));
+                .orElseThrow(() -> new NotaNaoEncontradaException("Nota nao encontrada."));
         nota.setTitulo(dto.getTitulo());
         nota.setConteudo(dto.getConteudo());
         return toDTO(notaRepository.save(nota));
@@ -67,7 +68,7 @@ public class NotaService {
     public void deletarPorId(Long id) {
         Usuario usuario = getUsuarioLogado();
         notaRepository.findByIdAndUsuarioId(id, usuario.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Nota nao encontrada."));
+                .orElseThrow(() -> new NotaNaoEncontradaException("Nota nao encontrada."));
         notaRepository.deleteById(id);
     }
 

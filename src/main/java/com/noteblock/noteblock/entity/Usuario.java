@@ -32,10 +32,9 @@ public class Usuario {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime dataCriacao;
 
+    public Usuario() {
 
-   public Usuario () {
-
-}
+    }
 
     public Usuario(String nome, String email, String senha) {
         this.nome = nome;
